@@ -1,0 +1,7 @@
+{
+  "name": "BuildSmart AI - Construction Field Management",
+  "description": "A comprehensive, AI-driven construction site management platform featuring real-time task tracking, material inventory, workforce monitoring, and safety compliance powered by Gemini AI.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildSmart AI | Industrial Field Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --construction-yellow: #F5C518;
+            --asphalt-gray: #3C3C3C;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        .font-industrial {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hazard-strip {
+            background: repeating-linear-gradient(45deg,
+                    var(--construction-yellow),
+                    var(--construction-yellow) 20px,
+                    #000 20px,
+                    #000 40px);
+        }
+
+        .hazard-strip-sm {
+            background: repeating-linear-gradient(45deg,
+                    var(--construction-yellow),
+                    var(--construction-yellow) 10px,
+                    #000 10px,
+                    #000 20px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+    </style>
+    <script>
+        // Prevent ReferenceError: process is not defined
+        window.process = window.process || { env: { NODE_ENV: 'development' } };
+    </script>
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react-dom": "https://esm.sh/react-dom@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+    "recharts": "https://esm.sh/recharts@2.12.7?external=react,react-dom",
+    "@google/generative-ai": "https://esm.sh/@google/generative-ai@0.21.0",
+    "i18next": "https://esm.sh/i18next@23.17.4",
+    "react-i18next": "https://esm.sh/react-i18next@15.1.3?external=react,i18next",
+    "react-dom/": "https://esm.sh/react-dom@18.3.1/",
+    "react/": "https://esm.sh/react@18.3.1/"
+  }
+}
+</script>
+    <link rel="stylesheet" href="/index.css">
+</head>
+
+<body>
+    <div id="root"></div>
+    <!-- Explicitly load the entry point -->
+    <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>
