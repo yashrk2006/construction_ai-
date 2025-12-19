@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MOCK_USER, COLORS } from '../constants';
 import LanguageSwitcher from './LanguageSwitcher';
+import RoleSwitcher from './RoleSwitcher';
 import { useUser, ROLE_CONFIG } from '../contexts/UserContext';
 
 interface LayoutProps {
@@ -34,13 +35,13 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
 
   // All menu items
   const allMenuItems = [
-    { id: 'dashboard', label: t('dashboard'), icon: 'fa-gauge-high', roles: ['boss', 'manager', 'worker', 'labour'] },
-    { id: 'installation', label: 'QA Analysis', icon: 'fa-ruler-combined', roles: ['boss', 'manager'] },
-    { id: 'tasks', label: t('tasks'), icon: 'fa-list-check', roles: ['boss', 'manager', 'worker'] },
-    { id: 'materials', label: t('materials'), icon: 'fa-boxes-stacked', roles: ['boss', 'manager'] },
-    { id: 'workforce', label: t('workforce'), icon: 'fa-users-gear', roles: ['boss', 'manager'] },
-    { id: 'safety', label: t('safety'), icon: 'fa-helmet-safety', roles: ['boss', 'manager', 'worker', 'labour'] },
-    { id: 'reports', label: t('reports'), icon: 'fa-file-lines', roles: ['boss', 'manager'] },
+    { id: 'dashboard', label: t('dashboard'), icon: 'fa-gauge-high', roles: ['admin', 'manager', 'engineer', 'supervisor', 'siteworker'] },
+    { id: 'installation', label: 'QA Analysis', icon: 'fa-ruler-combined', roles: ['admin', 'manager', 'engineer'] },
+    { id: 'tasks', label: t('tasks'), icon: 'fa-list-check', roles: ['admin', 'manager', 'engineer', 'supervisor', 'siteworker'] },
+    { id: 'materials', label: t('materials'), icon: 'fa-boxes-stacked', roles: ['admin', 'manager', 'engineer'] },
+    { id: 'workforce', label: t('workforce'), icon: 'fa-users-gear', roles: ['admin', 'manager', 'supervisor'] },
+    { id: 'safety', label: t('safety'), icon: 'fa-helmet-safety', roles: ['admin', 'manager', 'engineer', 'supervisor', 'siteworker'] },
+    { id: 'reports', label: t('reports'), icon: 'fa-file-lines', roles: ['admin', 'manager', 'engineer'] },
   ];
 
   // Filter menu items based on user role
@@ -155,17 +156,18 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 md:gap-5 shrink-0">
+          <div className="flex items-center gap-2 md:gap-3 shrink-0">
             <div className="hidden lg:flex flex-col items-end mr-2">
               <span className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t('status')}</span>
-              <span className="text-[10px] md:text-xs font-bold text-green-600 uppercase flex items-center gap-1">
-                <span className="w-1 h-1 md:w-1.5 md:h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+              <span className="text-[10px] md:text-xs font-bold text-[#F5C518] uppercase flex items-center gap-1">
+                <span className="w-1 h-1 md:w-1.5 md:h-1.5 bg-[#F5C518] rounded-full animate-pulse"></span>
                 {t('operational')}
               </span>
             </div>
             <div className="hidden sm:block">
               <LanguageSwitcher />
             </div>
+            <RoleSwitcher />
             <button className="relative w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded text-slate-500 hover:text-[#FF9933] hover:bg-slate-50 border border-slate-100 transition-all">
               <i className="fa-solid fa-bell text-sm md:text-base"></i>
               <span className="absolute top-1 right-1 md:top-2 md:right-2 w-1.5 h-1.5 md:w-2 md:h-2 bg-[#D32F2F] rounded-full border border-white"></span>

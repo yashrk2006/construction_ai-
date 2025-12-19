@@ -43,35 +43,48 @@ const SafetyAI: React.FC = () => {
         <div className="lg:col-span-2 bg-[#1A1A1A] text-white p-8 rounded border-b-4 border-[#F5C518] shadow-xl relative overflow-hidden">
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-4">
-               <div className="w-10 h-10 bg-[#F5C518] rounded flex items-center justify-center text-[#000]">
-                  <i className="fa-solid fa-camera-retro text-xl"></i>
-               </div>
-               <h2 className="text-2xl font-industrial font-bold tracking-tight">AI Vision Inspector</h2>
+              <div className="w-10 h-10 bg-[#F5C518] rounded flex items-center justify-center text-[#000]">
+                <i className="fa-solid fa-camera-retro text-xl"></i>
+              </div>
+              <h2 className="text-2xl font-industrial font-bold tracking-tight">AI Vision Inspector</h2>
             </div>
             <p className="text-slate-400 text-sm max-w-md mb-8 leading-relaxed">
               Real-time OSHA compliance monitoring. Analyze site photography for PPE violations, equipment misuse, and environmental hazards using Gemini Vision Pro.
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <button 
+              <button
                 onClick={() => fileInputRef.current?.click()}
                 className="bg-[#F5C518] text-[#000] px-8 py-3 rounded font-industrial font-bold text-sm shadow-[0_4px_0_#C49D13] hover:shadow-[0_2px_0_#C49D13] hover:translate-y-0.5 active:translate-y-1 active:shadow-none transition-all flex items-center gap-2"
               >
                 <i className="fa-solid fa-upload"></i>
                 Upload Site Capture
               </button>
-              <button className="bg-white/10 hover:bg-white/20 text-white border border-white/10 px-6 py-3 rounded font-industrial font-bold text-sm transition-all flex items-center gap-2">
-                <i className="fa-solid fa-video"></i>
-                Connect CCTV
+              <button
+                onClick={() => {
+                  // Demo mode with fake construction image
+                  setPreviewUrl('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800');
+                  setAnalysisResult({
+                    complianceScore: 87,
+                    violations: [
+                      { issue: 'Worker without safety helmet detected', severity: 'High', location: 'Zone A - Floor 3' },
+                      { issue: 'Unsecured scaffolding near edge', severity: 'High', location: 'Zone B - Floor 3' }
+                    ]
+                  });
+                }}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded font-industrial font-bold text-sm transition-all flex items-center gap-2"
+              >
+                <i className="fa-solid fa-wand-magic-sparkles"></i>
+                Demo Mode
               </button>
             </div>
-            
-            <input 
-              type="file" 
-              accept="image/*" 
-              className="hidden" 
-              ref={fileInputRef} 
-              onChange={handleFileUpload} 
+
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={handleFileUpload}
             />
           </div>
           <i className="fa-solid fa-shield-virus absolute -right-4 -bottom-4 text-white/5 text-[160px] pointer-events-none"></i>
@@ -79,30 +92,30 @@ const SafetyAI: React.FC = () => {
 
         {/* Quick Safety Summary */}
         <div className="bg-white rounded border border-slate-200 p-6 flex flex-col justify-between shadow-sm">
-           <div>
-              <h3 className="font-industrial text-slate-800 font-bold mb-4 flex items-center gap-2">
-                <span className="w-1.5 h-4 bg-blue-600 rounded-full"></span>
-                Daily Safety Score
-              </h3>
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-industrial font-bold text-slate-800">92</span>
-                <span className="text-slate-400 font-bold uppercase text-[10px]">/ 100</span>
-              </div>
-              <p className="text-[10px] text-green-600 font-bold uppercase mt-2">
-                <i className="fa-solid fa-caret-up mr-1"></i> 3.4% improvement this week
-              </p>
-           </div>
-           
-           <div className="space-y-3 mt-6">
-              <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase">
-                 <span>Active Hazards</span>
-                 <span className="text-red-600">02</span>
-              </div>
-              <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase">
-                 <span>PPE Inspections</span>
-                 <span className="text-blue-600">45</span>
-              </div>
-           </div>
+          <div>
+            <h3 className="font-industrial text-slate-800 font-bold mb-4 flex items-center gap-2">
+              <span className="w-1.5 h-4 bg-blue-600 rounded-full"></span>
+              Daily Safety Score
+            </h3>
+            <div className="flex items-baseline gap-2">
+              <span className="text-5xl font-industrial font-bold text-slate-800">92</span>
+              <span className="text-slate-400 font-bold uppercase text-[10px]">/ 100</span>
+            </div>
+            <p className="text-[10px] text-green-600 font-bold uppercase mt-2">
+              <i className="fa-solid fa-caret-up mr-1"></i> 3.4% improvement this week
+            </p>
+          </div>
+
+          <div className="space-y-3 mt-6">
+            <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase">
+              <span>Active Hazards</span>
+              <span className="text-red-600">02</span>
+            </div>
+            <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase">
+              <span>PPE Inspections</span>
+              <span className="text-blue-600">45</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -112,11 +125,11 @@ const SafetyAI: React.FC = () => {
           {/* Inspection Viewport */}
           <div className="xl:col-span-3 bg-white rounded border border-slate-200 p-2 shadow-sm">
             <div className="bg-slate-50 border border-slate-200 flex justify-between items-center px-4 py-2 mb-2">
-               <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Inspection Feed #059</span>
-               <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
-                  <span className="text-[10px] font-bold text-red-500 uppercase">Analytic Overlay Active</span>
-               </div>
+              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Inspection Feed #059</span>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
+                <span className="text-[10px] font-bold text-red-500 uppercase">Analytic Overlay Active</span>
+              </div>
             </div>
             <div className="relative rounded overflow-hidden aspect-video bg-black flex items-center justify-center">
               {previewUrl && <img src={previewUrl} className="w-full h-full object-contain" alt="Preview" />}
@@ -125,10 +138,10 @@ const SafetyAI: React.FC = () => {
                   <div className="w-16 h-16 border-4 border-[#F5C518] border-t-transparent rounded-full animate-spin mb-6 shadow-[0_0_20px_rgba(245,197,24,0.4)]"></div>
                   <h3 className="font-industrial text-xl font-bold tracking-widest animate-pulse">Scanning Site Artifacts...</h3>
                   <div className="mt-4 space-y-2 max-w-xs">
-                     <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                        <div className="h-full bg-[#F5C518] animate-progress"></div>
-                     </div>
-                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Comparing frames against OSHA standard 1926</p>
+                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full bg-[#F5C518] animate-progress"></div>
+                    </div>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">Comparing frames against OSHA standard 1926</p>
                   </div>
                 </div>
               )}
@@ -142,7 +155,7 @@ const SafetyAI: React.FC = () => {
                 <i className="fa-solid fa-microscope text-blue-600"></i>
                 Inference Results
               </h3>
-              
+
               {!analysisResult && !isAnalyzing ? (
                 <div className="h-full flex flex-col items-center justify-center text-slate-400 py-12 text-center">
                   <i className="fa-solid fa-brain text-5xl mb-4 opacity-10"></i>

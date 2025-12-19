@@ -8,7 +8,6 @@ import Workforce from './pages/Workforce';
 import SafetyAI from './pages/SafetyAI';
 import Reports from './pages/Reports';
 import InstallationAnalysis from './pages/InstallationAnalysis';
-import RoleSwitcher from './components/RoleSwitcher';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -27,14 +26,11 @@ const App: React.FC = () => {
   };
 
   return (
-    <>
-      <Layout activeTab={activeTab} setActiveTab={setActiveTab}>
-        <div className="animate-in fade-in duration-500 h-full">
-          {renderContent()}
-        </div>
-      </Layout>
-      <RoleSwitcher />
-    </>
+    <Layout activeTab={activeTab} setActiveTab={setActiveTab}>
+      <div className="animate-in fade-in duration-500 h-full">
+        {renderContent()}
+      </div>
+    </Layout>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-export type UserRole = 'boss' | 'manager' | 'worker' | 'labour';
+export type UserRole = 'admin' | 'manager' | 'engineer' | 'supervisor' | 'siteworker';
 
 export interface User {
     id: string;
@@ -21,14 +21,14 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    // Default to Boss for demo - In production, this would come from login API
+    // Default to Admin for demo
     const [user, setUser] = useState<User | null>({
         id: 'user_001',
         name: 'Rajesh Kumar',
-        role: 'boss',
+        role: 'admin',
         email: 'rajesh.kumar@buildsmart.in',
         avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100',
-        permissions: ['view_budget', 'view_reports', 'manage_users', 'view_all_tasks']
+        permissions: ['view_budget', 'view_reports', 'manage_users', 'view_all_tasks', 'approve_tasks']
     });
 
     const isRole = (role: UserRole | UserRole[]): boolean => {
@@ -61,33 +61,40 @@ export const useUser = (): UserContextType => {
 
 // Role Configuration
 export const ROLE_CONFIG = {
-    boss: {
-        title: 'Executive Dashboard',
-        description: 'High-level overview & financial insights',
+    admin: {
+        title: 'Admin Dashboard',
+        description: 'Complete project oversight & control',
         primaryAction: 'Download Executive Report',
-        features: ['budget', 'analytics', 'users', 'reports', 'all_projects'],
+        features: ['budget', 'analytics', 'users', 'reports', 'all_projects', 'quality_control'],
         navigationItems: ['dashboard', 'installation', 'tasks', 'materials', 'workforce', 'safety', 'reports']
     },
     manager: {
         title: 'Project Management',
-        description: 'Task coordination & approvals',
-        primaryAction: 'Approve Site Work',
-        features: ['tasks', 'approvals', 'compliance', 'reports', 'assigned_projects'],
-        navigationItems: ['dashboard', 'tasks', 'materials', 'workforce', 'safety', 'reports']
+        description: 'Planning, scheduling & reporting',
+        primaryAction: 'Generate Project Report',
+        features: ['planning', 'scheduling', 'reports', 'budget_view', 'assigned_projects'],
+        navigationItems: ['dashboard', 'installation', 'tasks', 'materials', 'workforce', 'safety', 'reports']
     },
-    worker: {
-        title: 'My Tasks',
-        description: 'Daily assignments & progress',
-        primaryAction: 'Start Task / Clock In',
-        features: ['my_tasks', 'safety_checkin', 'upload_photo'],
-        navigationItems: ['dashboard', 'tasks', 'safety']
+    engineer: {
+        title: 'Site Engineering',
+        description: 'Technical oversight & quality control',
+        primaryAction: 'Review Technical Specs',
+        features: ['technical_review', 'quality_control', 'approvals', 'blueprints'],
+        navigationItems: ['dashboard', 'installation', 'tasks', 'materials', 'safety', 'reports']
     },
-    labour: {
+    supervisor: {
+        title: 'Site Supervision',
+        description: 'Team management & task coordination',
+        primaryAction: 'Assign Daily Tasks',
+        features: ['task_assignment', 'team_management', 'progress_tracking', 'safety_checks'],
+        navigationItems: ['dashboard', 'tasks', 'workforce', 'safety']
+    },
+    siteworker: {
         title: 'Field Work',
-        description: 'Safety & photo uploads',
+        description: 'Task execution & reporting',
         primaryAction: 'Upload Progress Photo',
-        features: ['safety_alerts', 'photo_upload', 'daily_tasks'],
-        navigationItems: ['dashboard', 'safety']
+        features: ['my_tasks', 'safety_checkin', 'photo_upload', 'material_request'],
+        navigationItems: ['dashboard', 'tasks', 'safety']
     }
 } as const;
 
@@ -99,31 +106,45 @@ export const PERMISSIONS = {
     VIEW_ALL_TASKS: 'view_all_tasks',
     VIEW_REPORTS: 'view_reports',
     UPLOAD_PHOTOS: 'upload_photos',
-    VIEW_SAFETY: 'view_safety'
+    VIEW_SAFETY: 'view_safety',
+    TECHNICAL_REVIEW: 'technical_review',
+    ASSIGN_TASKS: 'assign_tasks'
 } as const;
 
 // Default permissions by role
 export const DEFAULT_PERMISSIONS: Record<UserRole, string[]> = {
-    boss: [
+    admin: [
         PERMISSIONS.VIEW_BUDGET,
         PERMISSIONS.MANAGE_USERS,
         PERMISSIONS.APPROVE_TASKS,
         PERMISSIONS.VIEW_ALL_TASKS,
         PERMISSIONS.VIEW_REPORTS,
-        PERMISSIONS.VIEW_SAFETY
+        PERMISSIONS.VIEW_SAFETY,
+        PERMISSIONS.TECHNICAL_REVIEW,
+        PERMISSIONS.ASSIGN_TASKS
     ],
     manager: [
+        PERMISSIONS.VIEW_BUDGET,
         PERMISSIONS.APPROVE_TASKS,
         PERMISSIONS.VIEW_ALL_TASKS,
         PERMISSIONS.VIEW_REPORTS,
         PERMISSIONS.VIEW_SAFETY,
-        PERMISSIONS.UPLOAD_PHOTOS
+        PERMISSIONS.ASSIGN_TASKS
     ],
-    worker: [
+    engineer: [
+        PERMISSIONS.TECHNICAL_REVIEW,
+        PERMISSIONS.APPROVE_TASKS,
+        PERMISSIONS.VIEW_ALL_TASKS,
+        PERMISSIONS.VIEW_REPORTS,
+        PERMISSIONS.VIEW_SAFETY
+    ],
+    supervisor: [
+        PERMISSIONS.ASSIGN_TASKS,
+        PERMISSIONS.VIEW_ALL_TASKS,
         PERMISSIONS.VIEW_SAFETY,
         PERMISSIONS.UPLOAD_PHOTOS
     ],
-    labour: [
+    siteworker: [
         PERMISSIONS.VIEW_SAFETY,
         PERMISSIONS.UPLOAD_PHOTOS
     ]
