@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MOCK_USER, COLORS } from '../constants';
 import LanguageSwitcher from './LanguageSwitcher';
+import { useUser, ROLE_CONFIG } from '../contexts/UserContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,9 +12,10 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Start closed on mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { t } = useTranslation();
+  const { user, isRole } = useUser();
 
   // Detect mobile screen
   useEffect(() => {
@@ -21,7 +23,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       if (!mobile && !isSidebarOpen) {
-        setIsSidebarOpen(true); // Auto-open on desktop
+        setIsSidebarOpen(true);
       }
     };
 
@@ -30,19 +32,26 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const menuItems = [
-    { id: 'dashboard', label: t('dashboard'), icon: 'fa-gauge-high' },
-    { id: 'tasks', label: t('tasks'), icon: 'fa-list-check' },
-    { id: 'materials', label: t('materials'), icon: 'fa-boxes-stacked' },
-    { id: 'workforce', label: t('workforce'), icon: 'fa-users-gear' },
-    { id: 'safety', label: t('safety'), icon: 'fa-helmet-safety' },
-    { id: 'reports', label: t('reports'), icon: 'fa-file-lines' },
+  // All menu items
+  const allMenuItems = [
+    { id: 'dashboard', label: t('dashboard'), icon: 'fa-gauge-high', roles: ['boss', 'manager', 'worker', 'labour'] },
+    { id: 'installation', label: 'QA Analysis', icon: 'fa-ruler-combined', roles: ['boss', 'manager'] },
+    { id: 'tasks', label: t('tasks'), icon: 'fa-list-check', roles: ['boss', 'manager', 'worker'] },
+    { id: 'materials', label: t('materials'), icon: 'fa-boxes-stacked', roles: ['boss', 'manager'] },
+    { id: 'workforce', label: t('workforce'), icon: 'fa-users-gear', roles: ['boss', 'manager'] },
+    { id: 'safety', label: t('safety'), icon: 'fa-helmet-safety', roles: ['boss', 'manager', 'worker', 'labour'] },
+    { id: 'reports', label: t('reports'), icon: 'fa-file-lines', roles: ['boss', 'manager'] },
   ];
+
+  // Filter menu items based on user role
+  const menuItems = user
+    ? allMenuItems.filter(item => item.roles.includes(user.role))
+    : allMenuItems;
 
   const handleMenuClick = (tabId: string) => {
     setActiveTab(tabId);
     if (isMobile) {
-      setIsSidebarOpen(false); // Close sidebar after selection on mobile
+      setIsSidebarOpen(false);
     }
   };
 
@@ -89,8 +98,8 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
               key={item.id}
               onClick={() => handleMenuClick(item.id)}
               className={`w-full flex items-center gap-3 md:gap-4 px-3 md:px-4 py-3 md:py-3.5 rounded transition-all group relative overflow-hidden ${activeTab === item.id
-                  ? 'bg-[#FF9933] text-[#000] font-bold shadow-lg'
-                  : 'text-slate-400 hover:text-white hover:bg-white/5'
+                ? 'bg-[#FF9933] text-[#000] font-bold shadow-lg'
+                : 'text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
             >
               <i className={`fa-solid ${item.icon} w-5 md:w-6 text-center text-base md:text-lg ${activeTab === item.id ? 'scale-110' : 'group-hover:scale-110 transition-transform'} shrink-0`}></i>

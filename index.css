@@ -165,6 +165,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
+    line-clamp: 1;
 }
 
 .line-clamp-2 {
@@ -172,6 +173,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
 }
 
 .line-clamp-3 {
@@ -179,6 +181,7 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
 }
 
 .tabular-nums {
@@ -203,6 +206,49 @@
     max-width: none;
 }
 
+/* ===== BUTTON & INTERACTION FIXES ===== */
+
+/* Ensure all buttons have pointer cursor */
+button,
+a,
+[role="button"],
+[onclick],
+.clickable {
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: rgba(255, 153, 51, 0.2);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Remove any accidental pointer-events blocking */
+button:not(:disabled),
+a:not(:disabled) {
+    pointer-events: auto !important;
+}
+
+/* Ensure buttons aren't being blocked by overlays */
+button {
+    position: relative;
+    z-index: 10;
+}
+
+/* Active state for touch feedback */
+button:active,
+a:active,
+[role="button"]:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+    transition: all 0.1s ease;
+}
+
+/* Disabled button styles */
+button:disabled,
+button[disabled] {
+    cursor: not-allowed !important;
+    opacity: 0.5;
+    pointer-events: none !important;
+}
+
 /* ===== MOBILE TOUCH OPTIMIZATIONS ===== */
 @media (max-width: 767px) {
 
@@ -218,6 +264,13 @@
     * {
         -webkit-tap-highlight-color: transparent;
         -webkit-touch-callout: none;
+    }
+
+    /* Allow text selection in inputs */
+    input,
+    textarea {
+        -webkit-user-select: text;
+        user-select: text;
     }
 
     /* Smooth scrolling for mobile */
@@ -403,6 +456,23 @@ textarea:focus-visible {
     outline-offset: 2px;
 }
 
+/* ===== Z-INDEX MANAGEMENT ===== */
+.sidebar {
+    z-index: 100;
+}
+
+.modal {
+    z-index: 1000;
+}
+
+.dropdown {
+    z-index: 500;
+}
+
+.tooltip {
+    z-index: 2000;
+}
+
 /* ===== MOBILE VIEWPORT FIX ===== */
 @media (max-width: 767px) {
     .h-screen {
@@ -412,5 +482,11 @@ textarea:focus-visible {
 
     html {
         height: -webkit-fill-available;
+    }
+
+    /* Fix for iOS Safari bottom bar */
+    body {
+        min-height: 100vh;
+        min-height: -webkit-fill-available;
     }
 }

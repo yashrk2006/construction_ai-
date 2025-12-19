@@ -96,3 +96,26 @@ export const REGULATORY_BODIES = [
   'Ministry of Labour & Employment',
   'Directorate General Factory Advice Service & Labour Institutes (DGFASLI)'
 ];
+
+// Indian Currency
+export const CURRENCY = {
+  symbol: '₹',
+  code: 'INR',
+  name: 'Indian Rupee'
+};
+
+// Format currency in Indian Rupees
+export const formatCurrency = (amount: number): string => {
+  return `${CURRENCY.symbol}${amount.toLocaleString('en-IN')}`;
+};
+
+// Format currency with Lakhs/Crores (Indian number system)
+export const formatIndianCurrency = (amount: number): string => {
+  if (amount >= 10000000) {
+    return `${CURRENCY.symbol}${(amount / 10000000).toFixed(2)} Cr`;
+  } else if (amount >= 100000) {
+    return `${CURRENCY.symbol}${(amount / 100000).toFixed(2)} L`;
+  } else {
+    return `${CURRENCY.symbol}${amount.toLocaleString('en-IN')}`;
+  }
+};

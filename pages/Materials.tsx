@@ -7,8 +7,8 @@ const Materials: React.FC = () => {
     <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-           <h2 className="text-2xl font-industrial font-bold text-slate-800 tracking-tight">Material Inventory</h2>
-           <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Resource allocation & stock tracking</p>
+          <h2 className="text-2xl font-industrial font-bold text-slate-800 tracking-tight">Material Inventory</h2>
+          <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">Resource allocation & stock tracking</p>
         </div>
         <div className="flex gap-3">
           <button className="bg-white border border-slate-200 px-4 py-2 rounded font-industrial text-xs font-bold text-slate-600 hover:bg-slate-50 transition-colors shadow-sm">
@@ -51,13 +51,13 @@ const Materials: React.FC = () => {
                   <td className="px-6 py-4">
                     {isLow ? (
                       <div className="flex items-center gap-2 bg-red-50 text-red-700 px-3 py-1 rounded border border-red-100 w-fit">
-                         <i className="fa-solid fa-triangle-exclamation text-[10px] animate-pulse"></i>
-                         <span className="text-[10px] font-bold uppercase tracking-widest">Stock Alert</span>
+                        <i className="fa-solid fa-triangle-exclamation text-[10px] animate-pulse"></i>
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Stock Alert</span>
                       </div>
                     ) : (
                       <div className="flex items-center gap-2 bg-green-50 text-green-700 px-3 py-1 rounded border border-green-100 w-fit">
-                         <i className="fa-solid fa-circle-check text-[10px]"></i>
-                         <span className="text-[10px] font-bold uppercase tracking-widest">Nominal</span>
+                        <i className="fa-solid fa-circle-check text-[10px]"></i>
+                        <span className="text-[10px] font-bold uppercase tracking-widest">Nominal</span>
                       </div>
                     )}
                   </td>
@@ -84,18 +84,18 @@ const Materials: React.FC = () => {
       {/* Industrial Key Indicators */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
         {[
-          { label: 'Total Asset Value', val: '$142.5k', icon: 'fa-dollar-sign', color: 'text-blue-600', trend: '+12%', sub: 'vs baseline' },
+          { label: 'Total Asset Value', val: '₹1.42 Cr', icon: 'fa-indian-rupee-sign', color: 'text-blue-600', trend: '+12%', sub: 'vs baseline' },
           { label: 'Supply Lead Time', val: '4.2d', icon: 'fa-clock-rotate-left', color: 'text-slate-700', trend: '-0.5d', sub: 'efficiency gain' },
           { label: 'Waste Metrics', val: '2.4%', icon: 'fa-dumpster', color: 'text-red-600', trend: '-0.2%', sub: 'reduction target' }
         ].map((k, i) => (
           <div key={i} className="bg-slate-900 p-6 rounded relative overflow-hidden group shadow-lg">
             <div className="relative z-10 flex flex-col h-full">
-               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-4 group-hover:text-[#F5C518] transition-colors">{k.label}</span>
-               <div className="flex items-baseline gap-2 mb-2">
-                 <h4 className="text-4xl font-industrial font-bold text-white tracking-tight">{k.val}</h4>
-                 <span className={`text-[10px] font-bold ${k.trend.startsWith('+') ? 'text-green-500' : 'text-blue-400'}`}>{k.trend}</span>
-               </div>
-               <span className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">{k.sub}</span>
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-4 group-hover:text-[#F5C518] transition-colors">{k.label}</span>
+              <div className="flex items-baseline gap-2 mb-2">
+                <h4 className="text-4xl font-industrial font-bold text-white tracking-tight">{k.val}</h4>
+                <span className={`text-[10px] font-bold ${k.trend.startsWith('+') ? 'text-green-500' : 'text-blue-400'}`}>{k.trend}</span>
+              </div>
+              <span className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">{k.sub}</span>
             </div>
             <i className={`fa-solid ${k.icon} absolute -right-2 -bottom-2 text-white/5 text-6xl pointer-events-none group-hover:scale-110 transition-transform`}></i>
           </div>
