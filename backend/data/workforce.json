@@ -1,0 +1,50 @@
+[
+  {
+    "id": "e4a67df5-2aa6-44ca-b47a-805cdb63baa2",
+    "name": "Ramesh Singh",
+    "role": "Site Engineer",
+    "attendanceStatus": "Present",
+    "lastCheckIn": "08:15 AM",
+    "productivityScore": 92,
+    "employeeId": "EMP001",
+    "email": "ramesh@buildsmart.in",
+    "phone": "+91-9876543210",
+    "createdAt": "2025-12-28T10:29:19.833Z"
+  },
+  {
+    "id": "cbf8a921-6884-4ff2-8bb8-f22a802cbd65",
+    "name": "Priya Sharma",
+    "role": "QA Inspector",
+    "attendanceStatus": "Present",
+    "lastCheckIn": "08:30 AM",
+    "productivityScore": 88,
+    "employeeId": "EMP002",
+    "email": "priya@buildsmart.in",
+    "phone": "+91-9876543211",
+    "createdAt": "2025-12-28T10:29:19.833Z"
+  },
+  {
+    "id": "a408b4d2-8ac7-46bd-a357-9098b9b15873",
+    "name": "Amit Patel",
+    "role": "Mason Supervisor",
+    "attendanceStatus": "Late",
+    "lastCheckIn": "09:45 AM",
+    "productivityScore": 85,
+    "employeeId": "EMP003",
+    "email": "amit@buildsmart.in",
+    "phone": "+91-9876543212",
+    "createdAt": "2025-12-28T10:29:19.833Z"
+  },
+  {
+    "id": "20503c3e-2742-415b-afda-51ddca327fbc",
+    "name": "Sunita Devi",
+    "role": "Safety Officer",
+    "attendanceStatus": "Present",
+    "lastCheckIn": "08:00 AM",
+    "productivityScore": 95,
+    "employeeId": "EMP004",
+    "email": "sunita@buildsmart.in",
+    "phone": "+91-9876543213",
+    "createdAt": "2025-12-28T10:29:19.833Z"
+  }
+]

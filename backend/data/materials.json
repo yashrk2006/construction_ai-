@@ -1,0 +1,50 @@
+[
+  {
+    "id": "c64660fa-c360-4939-8d14-007c11997968",
+    "itemName": "Portland Cement (ACC)",
+    "quantity": 450,
+    "unit": "bags",
+    "reorderLevel": 200,
+    "category": "Construction Materials",
+    "supplier": "ACC Cement Ltd",
+    "unitPrice": 380,
+    "lastUpdated": "28/12/2025",
+    "createdAt": "2025-12-28T10:29:20.017Z"
+  },
+  {
+    "id": "b7d39402-e83e-45d1-8733-0a2fe7e74976",
+    "itemName": "Steel TMT Bars (Tata)",
+    "quantity": 85,
+    "unit": "tons",
+    "reorderLevel": 50,
+    "category": "Reinforcement",
+    "supplier": "Tata Steel",
+    "unitPrice": 55000,
+    "lastUpdated": "28/12/2025",
+    "createdAt": "2025-12-28T10:29:20.018Z"
+  },
+  {
+    "id": "3b09ef7d-b646-44d9-a72b-c0a4cd964f19",
+    "itemName": "Bricks (Red Clay)",
+    "quantity": 15000,
+    "unit": "pieces",
+    "reorderLevel": 10000,
+    "category": "Masonry",
+    "supplier": "Local Supplier",
+    "unitPrice": 8,
+    "lastUpdated": "28/12/2025",
+    "createdAt": "2025-12-28T10:29:20.018Z"
+  },
+  {
+    "id": "c1af515d-7020-4f79-a78f-ffd901b16aa5",
+    "itemName": "Sand (River)",
+    "quantity": 120,
+    "unit": "cubic meters",
+    "reorderLevel": 80,
+    "category": "Aggregates",
+    "supplier": "Local Supplier",
+    "unitPrice": 1200,
+    "lastUpdated": "28/12/2025",
+    "createdAt": "2025-12-28T10:29:20.018Z"
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "id": "20e33878-2b84-434e-8181-20e054e32a34",
+    "type": "PPE Violation",
+    "severity": "High",
+    "description": "Worker spotted without safety helmet in Zone A",
+    "location": "Zone A - Floor 3",
+    "reportedBy": "Sunita Devi",
+    "resolved": false,
+    "timestamp": "28/12/2025, 3:59:20 pm",
+    "createdAt": "2025-12-28T10:29:20.019Z"
+  },
+  {
+    "id": "c04d9995-6eba-4528-8fd3-e3063bd71b9c",
+    "type": "Hazard Detected",
+    "severity": "Medium",
+    "description": "Loose scaffolding detected near east wing",
+    "location": "East Wing",
+    "reportedBy": "Ramesh Singh",
+    "resolved": true,
+    "resolvedAt": "2025-12-28T10:29:20.019Z",
+    "timestamp": "28/12/2025, 3:59:20 pm",
+    "createdAt": "2025-12-28T10:29:20.019Z"
+  }
+]

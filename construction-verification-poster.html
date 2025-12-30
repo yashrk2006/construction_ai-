@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Construction Site Verification System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        .poster-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #0f1729 0%, #1e2742 100%);
+            border-radius: 30px;
+            padding: 60px;
+            box-shadow: 0 30px 90px rgba(0, 255, 127, 0.2);
+            border: 2px solid rgba(0, 255, 127, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ff7f 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            color: #a0aec0;
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: rgba(30, 39, 66, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff7f 0%, #00d4ff 100%);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 127, 0.3);
+            border-color: rgba(0, 255, 127, 0.5);
+        }
+
+        .card h2 {
+            color: #00ff7f;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card h2::before {
+            content: '▶';
+            font-size: 20px;
+        }
+
+        .card-content {
+            color: #e2e8f0;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .qr-section {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 255, 127, 0.3);
+        }
+
+        .qr-info {
+            flex: 1;
+        }
+
+        .qr-info ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .qr-info li {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .qr-info li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00ff7f;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .best-practices ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .best-practices li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            border-bottom: 1px solid rgba(0, 255, 127, 0.1);
+        }
+
+        .best-practices li:last-child {
+            border-bottom: none;
+        }
+
+        .best-practices li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: #00ff7f;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .model-package {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .model-item {
+            background: rgba(0, 255, 127, 0.1);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border-left: 3px solid #00ff7f;
+        }
+
+        .model-item strong {
+            color: #00ff7f;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .model-item span {
+            color: #cbd5e0;
+            font-size: 15px;
+        }
+
+        .verification-section {
+            background: rgba(30, 39, 66, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verification-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00ff7f 0%, #00d4ff 100%);
+        }
+
+        .verification-section h2 {
+            color: #00ff7f;
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .verification-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .site-map {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 50%;
+            border: 3px solid #00ff7f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 50px rgba(0, 255, 127, 0.4);
+        }
+
+        .site-map-inner {
+            width: 85%;
+            height: 85%;
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #e2e8f0;
+            font-size: 18px;
+            font-weight: 600;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .verification-points {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #ff4757;
+            border-radius: 50%;
+            border: 3px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.6);
+        }
+
+        .point-1 {
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .point-2 {
+            top: 30%;
+            right: 15%;
+        }
+
+        .point-3 {
+            bottom: 30%;
+            right: 15%;
+        }
+
+        .point-4 {
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .point-5 {
+            top: 30%;
+            left: 15%;
+        }
+
+        .verification-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .info-box {
+            background: rgba(0, 255, 127, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #00ff7f;
+        }
+
+        .info-box h3 {
+            color: #00ff7f;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .info-box p {
+            color: #cbd5e0;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .verify-button {
+            background: linear-gradient(135deg, #00ff7f 0%, #00d4ff 100%);
+            color: #0a0e27;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 255, 127, 0.4);
+        }
+
+        .verify-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 255, 127, 0.6);
+        }
+
+        .flowchart {
+            margin-top: 50px;
+            padding: 40px;
+            background: rgba(30, 39, 66, 0.4);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 127, 0.2);
+        }
+
+        .flowchart h3 {
+            color: #00ff7f;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .flow-step {
+            flex: 1;
+            background: rgba(0, 255, 127, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(0, 255, 127, 0.3);
+            position: relative;
+        }
+
+        .flow-step::after {
+            content: '→';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00ff7f;
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .flow-step:last-child::after {
+            display: none;
+        }
+
+        .flow-step h4 {
+            color: #00ff7f;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .flow-step p {
+            color: #cbd5e0;
+            font-size: 14px;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .poster-container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="poster-container">
+        <div class="header">
+            <h1>Construction Site Verification System</h1>
+            <p>Advanced AI-Powered Construction Monitoring & Security</p>
+        </div>
+
+        <div class="grid-layout">
+            <!-- QR Code Scanner -->
+            <div class="card">
+                <h2>QR Code Scanner</h2>
+                <div class="qr-section">
+                    <div class="qr-code">
+                        <div style="font-size: 80px; line-height: 1;">▦</div>
+                    </div>
+                    <div class="qr-info">
+                        <div class="card-content">
+                            <p style="margin-bottom: 15px;">Scan QR codes to instantly access site verification data and
+                                security protocols.</p>
+                            <ul>
+                                <li>Instant site authentication</li>
+                                <li>Real-time data access</li>
+                                <li>Secure verification process</li>
+                                <li>Mobile-friendly interface</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Best Practices -->
+            <div class="card best-practices">
+                <h2>Best Practices</h2>
+                <div class="card-content">
+                    <ul>
+                        <li>Regular site inspections and monitoring</li>
+                        <li>Implement multi-layer security protocols</li>
+                        <li>Maintain detailed activity logs</li>
+                        <li>Use AI-powered anomaly detection</li>
+                        <li>Ensure real-time alert systems</li>
+                        <li>Train staff on verification procedures</li>
+                        <li>Regular system updates and maintenance</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Model Package -->
+            <div class="card">
+                <h2>Model Package</h2>
+                <div class="card-content">
+                    <p style="margin-bottom: 20px;">Advanced AI models for comprehensive construction site analysis and
+                        verification.</p>
+                    <div class="model-package">
+                        <div class="model-item">
+                            <strong>Detection Model</strong>
+                            <span>YOLOv8 / MobileNet</span>
+                        </div>
+                        <div class="model-item">
+                            <strong>Classification</strong>
+                            <span>ResNet-50</span>
+                        </div>
+                        <div class="model-item">
+                            <strong>Accuracy</strong>
+                            <span>98.5% Detection Rate</span>
+                        </div>
+                        <div class="model-item">
+                            <strong>Processing</strong>
+                            <span>Real-time Analysis</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration -->
+            <div class="card">
+                <h2>Site Configuration</h2>
+                <div class="card-content">
+                    <p style="margin-bottom: 20px;">Comprehensive configuration options for optimal site monitoring and
+                        security management.</p>
+                    <ul style="list-style: none;">
+                        <li style="padding: 10px 0; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00ff7f;">⚙</span>
+                            Custom alert thresholds
+                        </li>
+                        <li style="padding: 10px 0; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00ff7f;">⚙</span>
+                            Zone-based monitoring
+                        </li>
+                        <li style="padding: 10px 0; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00ff7f;">⚙</span>
+                            Automated reporting system
+                        </li>
+                        <li style="padding: 10px 0; padding-left: 25px; position: relative;">
+                            <span style="position: absolute; left: 0; color: #00ff7f;">⚙</span>
+                            Integration with existing systems
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verification Section -->
+        <div class="verification-section">
+            <h2>Verification of Construction Site Activity</h2>
+
+            <div class="verification-content">
+                <div style="position: relative;">
+                    <div class="site-map">
+                        <div class="verification-points point-1">1</div>
+                        <div class="verification-points point-2">2</div>
+                        <div class="verification-points point-3">3</div>
+                        <div class="verification-points point-4">4</div>
+                        <div class="verification-points point-5">5</div>
+                        <div class="site-map-inner">
+                            Aerial Construction Site View
+                            <br><br>
+                            5 Active Monitoring Points
+                        </div>
+                    </div>
+                </div>
+
+                <div class="verification-info">
+                    <div class="info-box">
+                        <h3>Real-Time Monitoring</h3>
+                        <p>Continuous surveillance of all construction activities with AI-powered anomaly detection and
+                            instant alerts for suspicious behavior.</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h3>Multi-Point Verification</h3>
+                        <p>Strategic placement of 5 verification points ensures comprehensive coverage of the entire
+                            construction site perimeter.</p>
+                    </div>
+
+                    <div class="verify-button">
+                        ✓ Verification Suspicious Activity
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flowchart -->
+            <div class="flowchart">
+                <h3>Comparison of Construction Verification Workflow</h3>
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <h4>1. Data Capture</h4>
+                        <p>Site images & sensor data collection</p>
+                    </div>
+                    <div class="flow-step">
+                        <h4>2. AI Analysis</h4>
+                        <p>Machine learning model processing</p>
+                    </div>
+                    <div class="flow-step">
+                        <h4>3. Verification</h4>
+                        <p>Compare against baseline standards</p>
+                    </div>
+                    <div class="flow-step">
+                        <h4>4. Alert & Report</h4>
+                        <p>Generate alerts and documentation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

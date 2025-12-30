@@ -1,0 +1,35 @@
+[
+  {
+    "id": "49d7e127-972e-4f3b-ac72-9d7584d6f231",
+    "title": "Foundation Layout Verification",
+    "description": "Verify foundation measurements against blueprints for Block A",
+    "assignedTo": "Ramesh Singh",
+    "priority": "High",
+    "deadline": "2024-01-15",
+    "status": "In Progress",
+    "progress": 45,
+    "createdAt": "2025-12-28T10:29:19.813Z"
+  },
+  {
+    "id": "a5b5e079-6398-4ba3-a8d2-2fdeaec4a81c",
+    "title": "Steel Reinforcement QA Check",
+    "description": "Quality check for steel rebar installation - IS 456 compliance",
+    "assignedTo": "Priya Sharma",
+    "priority": "High",
+    "deadline": "2024-01-12",
+    "status": "Pending",
+    "progress": 0,
+    "createdAt": "2025-12-28T10:29:19.833Z"
+  },
+  {
+    "id": "27e6f22b-e657-4563-a039-5f344e33e73e",
+    "title": "Concrete Mix Testing",
+    "description": "Test concrete mix ratio samples from today's batch",
+    "assignedTo": "Amit Patel",
+    "priority": "Medium",
+    "deadline": "2024-01-10",
+    "status": "Completed",
+    "progress": 100,
+    "createdAt": "2025-12-28T10:29:19.833Z"
+  }
+]

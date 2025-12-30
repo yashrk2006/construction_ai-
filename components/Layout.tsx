@@ -1,22 +1,24 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MOCK_USER, COLORS } from '../constants';
 import LanguageSwitcher from './LanguageSwitcher';
 import RoleSwitcher from './RoleSwitcher';
-import { useUser, ROLE_CONFIG } from '../contexts/UserContext';
+import { User } from '../types';
 
 interface LayoutProps {
   children: React.ReactNode;
   activeTab: string;
   setActiveTab: (tab: string) => void;
+  user: User;
+  onLogout: () => void;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) => {
+const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, user, onLogout }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { t } = useTranslation();
-  const { user, isRole } = useUser();
 
   // Detect mobile screen
   useEffect(() => {
@@ -33,15 +35,15 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // All menu items
+  // All menu items with role-based filtering
   const allMenuItems = [
-    { id: 'dashboard', label: t('dashboard'), icon: 'fa-gauge-high', roles: ['admin', 'manager', 'engineer', 'supervisor', 'siteworker'] },
-    { id: 'installation', label: 'QA Analysis', icon: 'fa-ruler-combined', roles: ['admin', 'manager', 'engineer'] },
-    { id: 'tasks', label: t('tasks'), icon: 'fa-list-check', roles: ['admin', 'manager', 'engineer', 'supervisor', 'siteworker'] },
-    { id: 'materials', label: t('materials'), icon: 'fa-boxes-stacked', roles: ['admin', 'manager', 'engineer'] },
-    { id: 'workforce', label: t('workforce'), icon: 'fa-users-gear', roles: ['admin', 'manager', 'supervisor'] },
-    { id: 'safety', label: t('safety'), icon: 'fa-helmet-safety', roles: ['admin', 'manager', 'engineer', 'supervisor', 'siteworker'] },
-    { id: 'reports', label: t('reports'), icon: 'fa-file-lines', roles: ['admin', 'manager', 'engineer'] },
+    { id: 'dashboard', label: t('dashboard'), icon: 'fa-gauge-high', roles: ['Admin', 'Project Manager', 'Supervisor', 'Worker'] },
+    { id: 'installation', label: 'QA Analysis', icon: 'fa-ruler-combined', roles: ['Admin', 'Project Manager'] },
+    { id: 'tasks', label: t('tasks'), icon: 'fa-list-check', roles: ['Admin', 'Project Manager', 'Supervisor', 'Worker'] },
+    { id: 'materials', label: t('materials'), icon: 'fa-boxes-stacked', roles: ['Admin', 'Project Manager'] },
+    { id: 'workforce', label: t('workforce'), icon: 'fa-users-gear', roles: ['Admin', 'Project Manager', 'Supervisor'] },
+    { id: 'safety', label: t('safety'), icon: 'fa-helmet-safety', roles: ['Admin', 'Project Manager', 'Supervisor', 'Worker'] },
+    { id: 'reports', label: t('reports'), icon: 'fa-file-lines', roles: ['Admin', 'Project Manager'] },
   ];
 
   // Filter menu items based on user role
@@ -119,11 +121,15 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
             </div>
             {(isSidebarOpen || !isMobile) && (
               <div className="overflow-hidden min-w-0 flex-1">
-                <p className="text-xs font-bold truncate uppercase tracking-tight">{MOCK_USER.name}</p>
-                <p className="text-[9px] md:text-[10px] text-slate-500 truncate font-industrial">{MOCK_USER.role}</p>
+                <p className="text-xs font-bold truncate uppercase tracking-tight">{user.name}</p>
+                <p className="text-[9px] md:text-[10px] text-slate-500 truncate font-industrial">{user.role}</p>
               </div>
             )}
-            {(isSidebarOpen || !isMobile) && <i className="fa-solid fa-chevron-right text-[9px] md:text-[10px] text-slate-600 shrink-0"></i>}
+            {(isSidebarOpen || !isMobile) && (
+              <button onClick={onLogout} title="Logout" className="shrink-0 hover:text-red-400 transition-colors">
+                <i className="fa-solid fa-right-from-bracket text-xs"></i>
+              </button>
+            )}
           </div>
         </div>
       </aside>
@@ -151,7 +157,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab }) =>
               <h1 className="text-base md:text-xl font-industrial font-bold text-slate-800 tracking-tight capitalize truncate">{menuItems.find(m => m.id === activeTab)?.label}</h1>
               <div className="flex items-center gap-1 md:gap-2">
                 <span className="text-[8px] md:text-[10px] font-bold text-slate-400 uppercase">{t('location')}:</span>
-                <span className="text-[8px] md:text-[10px] font-bold text-blue-600 uppercase tracking-widest truncate">{MOCK_USER.site}</span>
+                <span className="text-[8px] md:text-[10px] font-bold text-blue-600 uppercase tracking-widest truncate">{user.site}</span>
               </div>
             </div>
           </div>
