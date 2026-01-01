@@ -28,6 +28,51 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const DEMO_MODE = import.meta.env.VITE_ENABLE_DEMO_MODE === 'true' || import.meta.env.VITE_ENABLE_DEMO_MODE === true;
+
+// Demo users for frontend-only mode
+const DEMO_USERS: Record<UserRole, AuthUser> = {
+    'Admin': {
+        id: 'demo-admin-1',
+        name: 'Rajesh Kumar',
+        email: 'rajesh@buildsmart.in',
+        role: 'Admin',
+        site: 'Mumbai Metro Line 3 - Phase II',
+        avatar: '👨‍💼',
+        permissions: ROLE_DEFINITIONS['Admin'].permissions,
+        token: 'demo-token-admin'
+    },
+    'Project Manager': {
+        id: 'demo-manager-1',
+        name: 'Priya Sharma',
+        email: 'priya@buildsmart.in',
+        role: 'Project Manager',
+        site: 'Mumbai Metro Line 3 - Phase II',
+        avatar: '👩‍💼',
+        permissions: ROLE_DEFINITIONS['Project Manager'].permissions,
+        token: 'demo-token-manager'
+    },
+    'Supervisor': {
+        id: 'demo-supervisor-1',
+        name: 'Amit Patel',
+        email: 'amit@buildsmart.in',
+        role: 'Supervisor',
+        site: 'Mumbai Metro Line 3 - Phase II',
+        avatar: '👷‍♂️',
+        permissions: ROLE_DEFINITIONS['Supervisor'].permissions,
+        token: 'demo-token-supervisor'
+    },
+    'Worker': {
+        id: 'demo-worker-1',
+        name: 'Ramesh Singh',
+        email: 'ramesh@buildsmart.in',
+        role: 'Worker',
+        site: 'Mumbai Metro Line 3 - Phase II',
+        avatar: '👨‍🔧',
+        permissions: ROLE_DEFINITIONS['Worker'].permissions,
+        token: 'demo-token-worker'
+    }
+};
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<AuthUser | null>(null);
@@ -65,36 +110,53 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setLoading(true);
             setError(null);
 
-            const response = await fetch(`${API_BASE_URL}/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
+            // Try API login first
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
 
-            const data = await response.json();
+                const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || 'Login failed');
+                if (!response.ok) {
+                    throw new Error(data.error || 'Login failed');
+                }
+
+                const authUser: AuthUser = {
+                    id: data.user.id || data.user._id,
+                    name: data.user.name,
+                    email: data.user.email,
+                    role: data.user.role,
+                    site: data.user.site,
+                    avatar: data.user.avatar,
+                    permissions: data.user.permissions || [],
+                    token: data.token
+                };
+
+                // Save to state and localStorage
+                setUser(authUser);
+                localStorage.setItem('auth_token', data.token);
+                localStorage.setItem('auth_user', JSON.stringify(authUser));
+                return;
+            } catch (apiError) {
+                // If API fails and demo mode is enabled, fallback to demo user
+                if (DEMO_MODE) {
+                    console.warn('Backend unavailable, using demo mode');
+                    // Find matching demo user by email
+                    const demoUser = Object.values(DEMO_USERS).find(u => u.email === email);
+                    if (demoUser && demoUser.token) {
+                        setUser(demoUser);
+                        localStorage.setItem('auth_token', demoUser.token);
+                        localStorage.setItem('auth_user', JSON.stringify(demoUser));
+                        return;
+                    }
+                }
+                throw apiError;
             }
-
-            const authUser: AuthUser = {
-                id: data.user.id || data.user._id,
-                name: data.user.name,
-                email: data.user.email,
-                role: data.user.role,
-                site: data.user.site,
-                avatar: data.user.avatar,
-                permissions: data.user.permissions || [],
-                token: data.token
-            };
-
-            // Save to state and localStorage
-            setUser(authUser);
-            localStorage.setItem('auth_token', data.token);
-            localStorage.setItem('auth_user', JSON.stringify(authUser));
-
         } catch (err: any) {
             setError(err.message || 'Login failed');
             throw err;
@@ -111,35 +173,49 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             setLoading(true);
             setError(null);
 
-            const response = await fetch(`${API_BASE_URL}/auth/demo-login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ role }),
-            });
+            // Try API demo login first
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/demo-login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ role }),
+                });
 
-            const data = await response.json();
+                const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || 'Demo login failed');
+                if (!response.ok) {
+                    throw new Error(data.error || 'Demo login failed');
+                }
+
+                const authUser: AuthUser = {
+                    id: data.user.id || data.user._id,
+                    name: data.user.name,
+                    email: data.user.email,
+                    role: data.user.role,
+                    site: data.user.site,
+                    avatar: data.user.avatar,
+                    permissions: data.user.permissions || [],
+                    token: data.token
+                };
+
+                setUser(authUser);
+                localStorage.setItem('auth_token', data.token);
+                localStorage.setItem('auth_user', JSON.stringify(authUser));
+                return;
+            } catch (apiError) {
+                // If API fails, use local demo users (frontend-only mode)
+                console.warn('Backend unavailable, using frontend-only demo mode');
+                const demoUser = DEMO_USERS[role];
+                if (demoUser && demoUser.token) {
+                    setUser(demoUser);
+                    localStorage.setItem('auth_token', demoUser.token);
+                    localStorage.setItem('auth_user', JSON.stringify(demoUser));
+                    return;
+                }
+                throw new Error(`Demo user not found for role: ${role}`);
             }
-
-            const authUser: AuthUser = {
-                id: data.user.id || data.user._id,
-                name: data.user.name,
-                email: data.user.email,
-                role: data.user.role,
-                site: data.user.site,
-                avatar: data.user.avatar,
-                permissions: data.user.permissions || [],
-                token: data.token
-            };
-
-            setUser(authUser);
-            localStorage.setItem('auth_token', data.token);
-            localStorage.setItem('auth_user', JSON.stringify(authUser));
-
         } catch (err: any) {
             setError(err.message || 'Demo login failed');
             throw err;

@@ -4,6 +4,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { MOCK_TASKS, MOCK_MATERIALS, MOCK_WORKFORCE, COLORS } from '../constants';
 import { predictProjectDelay } from '../geminiService';
 import { PredictionResult } from '../types';
+import RiskHeatmap from '../components/RiskHeatmap';
 
 const Dashboard: React.FC = () => {
   const [prediction, setPrediction] = useState<PredictionResult | null>(null);
@@ -270,6 +271,9 @@ const Dashboard: React.FC = () => {
               </AreaChart>
             </ResponsiveContainer>
           </div>
+
+          {/* Risk Heatmap - Site Overview */}
+          <RiskHeatmap />
 
           {/* Project Timeline & Quick Actions */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
